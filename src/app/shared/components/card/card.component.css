@@ -1,0 +1,10 @@
+img {
+  height: 25vh;
+  width: min-content;
+  margin: auto;
+}
+
+p {
+  font-size: 18px;
+  font-weight: 500;
+}

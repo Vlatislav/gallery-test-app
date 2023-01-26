@@ -1,0 +1,13 @@
+<ng-container *ngIf="image">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <p>{{ image.author }}</p>
+    </mat-card-header>
+
+    <img mat-card-image [src]="image.download_url" />
+
+    <mat-card-actions>
+      <button mat-button (click)="onClick()">Download</button>
+    </mat-card-actions>
+  </mat-card>
+</ng-container>
