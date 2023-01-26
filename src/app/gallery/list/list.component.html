@@ -1,9 +1,9 @@
 <div class="header">
   <div class="header__title">
-    <p>Images</p>
+    <p>Images {{ sliderValue | pageNumberPipe }}</p>
   </div>
   <div class="header__slider">
-    <mat-slider min="5" max="25" step="5" showTickMarks discrete>
+    <mat-slider min="5" max="25" showTickMarks discrete>
       <input
         matSliderThumb
         (change)="updateSetting()"

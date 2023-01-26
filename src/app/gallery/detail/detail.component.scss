@@ -3,30 +3,29 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: sticky;
-  top: 0;
-  background-color: #ccc;
-  z-index: 1000;
+
   &__title {
     margin-left: 1vw;
+
     & p {
       margin: 0;
       font-size: 4rem;
     }
   }
 
-  &__slider {
-    padding: 2vh 1vw;
-    background-color: #fff;
-
-    mat-slider {
-      width: 15vw;
+  &__actions {
+    button {
+      font-size: 1vw;
     }
   }
 }
 
 .content {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1vw;
+  height: 80vh;
+  margin-bottom: 5vh;
+  text-align: center;
+
+  img {
+    height: inherit;
+  }
 }
