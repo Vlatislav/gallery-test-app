@@ -1,22 +1,24 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { Image } from '../interfaces/image.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ImageService {
-  constructor() {}
+  private readonly currentImageInfo$ = new BehaviorSubject<Image | null>(null);
+  constructor(private http: HttpClient) {}
 
-  getImageInfoById(id: number): Image {
-    console.log('🚀 ~ getImageInfoById ~ ', id);
+  getImageInfoById(id: number): void {
+    this.http
+      .get<Image>(`https://picsum.photos/id/${id}/info`)
+      .subscribe((data) => {
+        this.currentImageInfo$.next(data);
+      });
+  }
 
-    return {
-      id: '29',
-      author: 'Go Wild',
-      width: 4000,
-      height: 2670,
-      url: 'https://unsplash.com/photos/V0yAek6BgGk',
-      download_url: 'https://picsum.photos/id/29/4000/2670',
-    };
+  public getCurrentImageInfo() {
+    return this.currentImageInfo$;
   }
 }

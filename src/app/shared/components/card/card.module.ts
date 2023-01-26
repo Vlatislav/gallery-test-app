@@ -1,19 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { ButtonModule } from './../button/button.module';
 import { CardComponent } from './card.component';
 @NgModule({
   declarations: [CardComponent],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatButtonModule,
-    HttpClientModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, MatCardModule, ButtonModule],
   exports: [CardComponent],
 })
 export class CardModule {}

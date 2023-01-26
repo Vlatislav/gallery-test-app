@@ -1,10 +1,10 @@
 img {
-  height: 25vh;
+  height: 20vh;
   width: min-content;
   margin: auto;
 }
 
 p {
-  font-size: 18px;
+  font-size: 1.2vw;
   font-weight: 500;
 }

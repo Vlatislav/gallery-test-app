@@ -1,8 +1,8 @@
-import { ListComponent } from './list/list.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DetailComponent } from './detail/detail.component';
+import { ListComponent } from './list/list.component';
 
 export const routes: Routes = [
   {
@@ -13,7 +13,7 @@ export const routes: Routes = [
         component: ListComponent,
       },
       {
-        path: 'detail',
+        path: 'detail/:id',
         component: DetailComponent,
       },
     ],
