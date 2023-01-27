@@ -37,12 +37,13 @@ export class ImageService implements OnDestroy {
   }
 
   getImageInfoById(id: string): void {
-    this.listImageInfos$.pipe(takeUntil(this.destroy$)).subscribe((data) => {
-      if (data) {
-        const imageInfoById = data.find((image) => image.id === id);
-        imageInfoById && this.detailImageInfo$.next(imageInfoById);
-      }
-    });
+    this.detailImageInfo$.next(null);
+    this.http
+      .get<ImageInfo>(`https://picsum.photos/id/${id}/info`)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        this.detailImageInfo$.next(data);
+      });
   }
 
   getListImageInfos() {
