@@ -40,7 +40,7 @@ export class DetailComponent implements OnInit {
   onDownloadClick() {
     if (this.imageInfo) {
       let a = document.createElement('a');
-      a.setAttribute('href', this.imageInfo!.url);
+      a.setAttribute('href', this.imageInfo.url);
       a.setAttribute('target', 'blank');
       a.click();
     }
