@@ -3,7 +3,16 @@
     <mat-card-header>
       <p>{{ image.author }}</p>
     </mat-card-header>
-    <img mat-card-image [src]="image.download_url" (click)="onImageClick()" />
+    <div #imageDiv class="block__image">
+      <ng-container *ngIf="flag">
+        <img
+          #img
+          mat-card-image
+          [src]="image.download_url"
+          (click)="onImageClick()"
+        />
+      </ng-container>
+    </div>
 
     <mat-card-actions>
       <app-button text="Download" (onClick)="onDownloadClick()"></app-button>

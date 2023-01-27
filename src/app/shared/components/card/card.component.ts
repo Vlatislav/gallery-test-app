@@ -1,4 +1,11 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  Input,
+  OnChanges,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { ImageInfo } from '../../interfaces/image.interface';
 @Component({
@@ -6,11 +13,40 @@ import { ImageInfo } from '../../interfaces/image.interface';
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css'],
 })
-export class CardComponent {
+export class CardComponent implements OnChanges {
+  flag = false;
+  isTestDivScrolledIntoView: boolean;
+
   @Input() image: ImageInfo | undefined;
   @Input() lazy: boolean;
 
+  @ViewChild('imageDiv', { static: false })
+  private imageDiv: ElementRef<HTMLDivElement>;
+
   constructor(private router: Router) {}
+
+  ngOnChanges() {
+    if (!this.lazy && !this.flag) {
+      this.flag = true;
+    }
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  isScrolledIntoView() {
+    if (this.imageDiv && this.lazy && !this.flag) {
+      const rect = this.imageDiv.nativeElement.getBoundingClientRect();
+      const topShown = rect.top >= 0;
+      const bottomShown = rect.bottom <= window.innerHeight;
+      this.isTestDivScrolledIntoView = topShown && bottomShown;
+      this.flag = this.isTestDivScrolledIntoView ? true : false;
+    }
+  }
+
+  @HostListener('mouseover', ['$event'])
+  isMouseOverIntoView() {
+    const hasVScroll = document.body.scrollHeight > document.body.clientHeight;
+    if (hasVScroll) this.isScrolledIntoView();
+  }
 
   onDownloadClick() {
     let a = document.createElement('a');
