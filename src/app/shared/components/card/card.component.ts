@@ -17,7 +17,7 @@ export class CardComponent implements OnChanges {
   flag = false;
   isTestDivScrolledIntoView: boolean;
 
-  @Input() image: ImageInfo | undefined;
+  @Input() imageInfo: ImageInfo | undefined;
   @Input() lazy: boolean;
 
   @ViewChild('imageDiv', { static: false })
@@ -49,15 +49,17 @@ export class CardComponent implements OnChanges {
   }
 
   onDownloadClick() {
-    let a = document.createElement('a');
-    a.setAttribute('href', this.image!.url);
-    a.setAttribute('target', 'blank');
-    a.click();
+    if (this.imageInfo) {
+      let a = document.createElement('a');
+      a.setAttribute('href', this.imageInfo.url);
+      a.setAttribute('target', 'blank');
+      a.click();
+    }
   }
 
   onImageClick() {
-    if (this.image) {
-      this.router.navigate([`gallery/detail`, this.image!.id]);
+    if (this.imageInfo) {
+      this.router.navigate([`gallery/detail`, this.imageInfo.id]);
     }
   }
 }

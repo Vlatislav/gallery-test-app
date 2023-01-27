@@ -1,10 +1,10 @@
-import { DetailModule } from './detail/detail.module';
-import { GalleryRoutingModule } from './gallery-routing.module';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { DetailModule } from './detail/detail.module';
+import { GalleryRoutingModule } from './gallery-routing.module';
 import { ListModule } from './list/list.module';
 @NgModule({
   declarations: [],
@@ -15,7 +15,7 @@ import { ListModule } from './list/list.module';
     MatFormFieldModule,
     MatSelectModule,
     ListModule,
-    DetailModule
+    DetailModule,
   ],
 })
 export class GalleryModule {}

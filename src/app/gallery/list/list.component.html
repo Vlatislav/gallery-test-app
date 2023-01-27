@@ -15,13 +15,17 @@
 <hr />
 <div class="content">
   <ng-container *ngIf="imageInfos">
-    <ng-container *ngFor="let image of imageInfos.slice(0, 5)">
-      <gallery-card [image]="image" [lazy]="false"></gallery-card>
-    </ng-container>
+    <gallery-card
+      *ngFor="let imageInfo of imageInfos.slice(0, 5)"
+      [imageInfo]="imageInfo"
+      [lazy]="false"
+    ></gallery-card>
     <ng-container *ngIf="lazyLoadImageInfos">
-      <ng-container *ngFor="let image of lazyLoadImageInfos">
-        <gallery-card [image]="image" [lazy]="true"></gallery-card>
-      </ng-container>
+      <gallery-card
+        *ngFor="let lazyImageInfo of lazyLoadImageInfos"
+        [imageInfo]="lazyImageInfo"
+        [lazy]="true"
+      ></gallery-card>
     </ng-container>
   </ng-container>
 </div>

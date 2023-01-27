@@ -1,17 +1,21 @@
-<ng-container *ngIf="image">
+<ng-container *ngIf="imageInfo">
   <div class="header">
     <div class="header__title">
-      <p>{{ image.author }}</p>
+      <p>{{ imageInfo.author }}</p>
     </div>
     <div class="header__actions">
       <mat-card-actions>
-        <app-button text="Download" (onClick)="onDownloadClick()"></app-button>
+        <app-button
+          *ngIf="imageInfo | downloadImage"
+          text="Download"
+          (onClick)="onDownloadClick()"
+        ></app-button>
         <app-button text="Back" (onClick)="onBackClick()"></app-button>
       </mat-card-actions>
     </div>
   </div>
   <hr />
   <div class="content">
-    <img mat-card-image [src]="image.download_url" />
+    <img mat-card-image [src]="imageInfo.download_url" />
   </div>
 </ng-container>

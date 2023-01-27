@@ -10,7 +10,7 @@ import { ImageService } from '../../shared/services/image.service';
 })
 export class DetailComponent implements OnInit {
   public id: string;
-  public image: ImageInfo;
+  public imageInfo: ImageInfo;
 
   private sub: any;
 
@@ -24,7 +24,7 @@ export class DetailComponent implements OnInit {
     });
     this.imageSvc.getDetailImageInfo().subscribe((data) => {
       if (data) {
-        this.image = data;
+        this.imageInfo = data;
       }
     });
   }
@@ -38,10 +38,12 @@ export class DetailComponent implements OnInit {
   }
 
   onDownloadClick() {
-    let a = document.createElement('a');
-    a.setAttribute('href', this.image!.url);
-    a.setAttribute('target', 'blank');
-    a.click();
+    if (this.imageInfo) {
+      let a = document.createElement('a');
+      a.setAttribute('href', this.imageInfo!.url);
+      a.setAttribute('target', 'blank');
+      a.click();
+    }
   }
 
   onBackClick() {
