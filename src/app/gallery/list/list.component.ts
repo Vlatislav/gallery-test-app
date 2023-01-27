@@ -8,9 +8,9 @@ import { ImageService } from 'src/app/shared/services/image.service';
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit {
-  public sliderValue: number = 5;
-  public imageInfos: ImageInfo[] | null;
-  public lazyLoadImageInfos: ImageInfo[] | null;
+  sliderValue: number = 5;
+  imageInfos: ImageInfo[] | null;
+  lazyLoadImageInfos: ImageInfo[] | null;
 
   constructor(private imageSvc: ImageService) {
     this.imageSvc.getListImageInfos().subscribe((data) => {
@@ -34,7 +34,7 @@ export class ListComponent implements OnInit {
     this.imageSvc.getListImageInfosByLimit(5);
   }
 
-  public updateSetting() {
+  updateSetting() {
     this.imageSvc.getListImageInfosByLimit(this.sliderValue);
   }
 }

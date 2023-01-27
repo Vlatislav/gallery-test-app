@@ -10,14 +10,13 @@ export class ImageService {
   private readonly listImageInfos$ = new BehaviorSubject<ImageInfo[] | null>(
     null
   );
-
   private readonly listOfLazyLoadImageInfos$ = new BehaviorSubject<
     ImageInfo[] | null
   >(null);
-  // private readonly up$ = new BehaviorSubject<ImageInfo[] | null>(null);
   private readonly detailImageInfo$ = new BehaviorSubject<ImageInfo | null>(
     null
   );
+
   constructor(private http: HttpClient) {}
 
   getListImageInfosByLimit(limit: number): void {
@@ -38,15 +37,15 @@ export class ImageService {
     });
   }
 
-  public getListImageInfos() {
+  getListImageInfos() {
     return this.listImageInfos$;
   }
 
-  public getListOfLazyLoadImageInfos() {
+  getListOfLazyLoadImageInfos() {
     return this.listOfLazyLoadImageInfos$;
   }
 
-  public getDetailImageInfo() {
+  getDetailImageInfo() {
     return this.detailImageInfo$;
   }
 }

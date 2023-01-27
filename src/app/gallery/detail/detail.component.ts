@@ -9,8 +9,8 @@ import { ImageService } from '../../shared/services/image.service';
   styleUrls: ['./detail.component.scss'],
 })
 export class DetailComponent implements OnInit {
-  public id: string;
-  public imageInfo: ImageInfo;
+  id: string;
+  imageInfo: ImageInfo;
 
   private sub: any;
 
