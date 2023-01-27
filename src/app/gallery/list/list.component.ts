@@ -41,7 +41,7 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.imageSvc.getListImageInfosByLimit(5, true);
+    this.imageSvc.getListOfShowedImageInfosByLimit(5);
   }
 
   ngOnDestroy() {
@@ -50,6 +50,6 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   updateSetting() {
-    this.imageSvc.getListImageInfosByLimit(this.sliderValue);
+    this.imageSvc.getListOfShowedImageInfosByLimit(this.sliderValue);
   }
 }

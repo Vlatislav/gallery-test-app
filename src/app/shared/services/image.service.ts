@@ -7,9 +7,11 @@ import { ImageInfo } from '../interfaces/image.interface';
   providedIn: 'root',
 })
 export class ImageService implements OnDestroy {
-  private readonly listImageInfos$ = new BehaviorSubject<ImageInfo[] | null>(
-    null
-  );
+  private listOfAllImageInfos: ImageInfo[] | null = null;
+
+  private readonly listOfShowedImageInfos$ = new BehaviorSubject<
+    ImageInfo[] | null
+  >(null);
   private readonly listOfLazyLoadImageInfos$ = new BehaviorSubject<
     ImageInfo[] | null
   >(null);
@@ -26,28 +28,34 @@ export class ImageService implements OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  getListImageInfosByLimit(limit: number, initialCall = false): void {
+  getListOfAllImageInfos(): void {
     this.http
-      .get<ImageInfo[]>(`https://picsum.photos/v2/list?limit=${limit}`)
+      .get<ImageInfo[]>(`https://picsum.photos/v2/list?limit=25`)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
-        this.listOfLazyLoadImageInfos$.next(data.slice(5, data.length));
-        initialCall && this.listImageInfos$.next(data.slice(0, 5));
+        this.listOfAllImageInfos = data;
+        this.listOfShowedImageInfos$.next(this.listOfAllImageInfos.slice(0, 5));
       });
+  }
+
+  getListOfShowedImageInfosByLimit(limit: number): void {
+    if (this.listOfAllImageInfos) {
+      this.listOfLazyLoadImageInfos$.next(
+        this.listOfAllImageInfos.slice(5, limit)
+      );
+    }
   }
 
   getImageInfoById(id: string): void {
     this.detailImageInfo$.next(null);
-    this.http
-      .get<ImageInfo>(`https://picsum.photos/id/${id}/info`)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        this.detailImageInfo$.next(data);
-      });
+
+    this.detailImageInfo$.next(
+      this.listOfAllImageInfos!.find((i) => i.id == id) ?? null
+    );
   }
 
   getListImageInfos() {
-    return this.listImageInfos$;
+    return this.listOfShowedImageInfos$;
   }
 
   getListOfLazyLoadImageInfos() {
