@@ -1,4 +1,4 @@
-export interface Image {
+export interface ImageInfo {
   id: string;
   author: string;
   width: number;

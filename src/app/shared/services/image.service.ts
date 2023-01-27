@@ -1,24 +1,52 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Image } from '../interfaces/image.interface';
+import { ImageInfo } from '../interfaces/image.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ImageService {
-  private readonly currentImageInfo$ = new BehaviorSubject<Image | null>(null);
+  private readonly listImageInfos$ = new BehaviorSubject<ImageInfo[] | null>(
+    null
+  );
+
+  private readonly listOfLazyLoadImageInfos$ = new BehaviorSubject<
+    ImageInfo[] | null
+  >(null);
+  // private readonly up$ = new BehaviorSubject<ImageInfo[] | null>(null);
+  private readonly detailImageInfo$ = new BehaviorSubject<ImageInfo | null>(
+    null
+  );
   constructor(private http: HttpClient) {}
 
-  getImageInfoById(id: number): void {
+  getListImageInfosByLimit(limit: number): void {
     this.http
-      .get<Image>(`https://picsum.photos/id/${id}/info`)
+      .get<ImageInfo[]>(`https://picsum.photos/v2/list?limit=${limit}`)
       .subscribe((data) => {
-        this.currentImageInfo$.next(data);
+        this.listOfLazyLoadImageInfos$.next(data.slice(5, data.length));
+        this.listImageInfos$.next(data);
       });
   }
 
-  public getCurrentImageInfo() {
-    return this.currentImageInfo$;
+  getImageInfoById(id: string): void {
+    this.listImageInfos$.subscribe((data) => {
+      if (data) {
+        const imageInfoById = data.find((image) => image.id === id);
+        imageInfoById && this.detailImageInfo$.next(imageInfoById);
+      }
+    });
+  }
+
+  public getListImageInfos() {
+    return this.listImageInfos$;
+  }
+
+  public getListOfLazyLoadImageInfos() {
+    return this.listOfLazyLoadImageInfos$;
+  }
+
+  public getDetailImageInfo() {
+    return this.detailImageInfo$;
   }
 }

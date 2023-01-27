@@ -1,9 +1,9 @@
 <div class="header">
   <div class="header__title">
-    <p>Images {{ sliderValue | pageNumberPipe }}</p>
+    <p>Images</p>
   </div>
   <div class="header__slider">
-    <mat-slider min="5" max="25" showTickMarks discrete>
+    <mat-slider min="5" max="25" step="5" showTickMarks discrete>
       <input
         matSliderThumb
         (change)="updateSetting()"
@@ -14,7 +14,14 @@
 </div>
 <hr />
 <div class="content">
-  <ng-container *ngFor="let image of showedImages">
-    <gallery-card [image]="image"></gallery-card>
+  <ng-container *ngIf="imageInfos">
+    <ng-container *ngFor="let image of imageInfos.slice(0, 5)">
+      <gallery-card [image]="image" [lazy]="false"></gallery-card>
+    </ng-container>
+    <ng-container *ngIf="lazyLoadImageInfos">
+      <ng-container *ngFor="let image of lazyLoadImageInfos">
+        <gallery-card [image]="image" [lazy]="true"></gallery-card>
+      </ng-container>
+    </ng-container>
   </ng-container>
 </div>

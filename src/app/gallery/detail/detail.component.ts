@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Image } from 'src/app/shared/interfaces/image.interface';
+import { ImageInfo } from 'src/app/shared/interfaces/image.interface';
 import { ImageService } from '../../shared/services/image.service';
 
 @Component({
@@ -9,10 +9,10 @@ import { ImageService } from '../../shared/services/image.service';
   styleUrls: ['./detail.component.scss'],
 })
 export class DetailComponent implements OnInit {
-  id!: number;
-  private sub: any;
+  public id: string;
+  public image: ImageInfo;
 
-  public image: Image;
+  private sub: any;
 
   constructor(
     private imageSvc: ImageService,
@@ -20,9 +20,9 @@ export class DetailComponent implements OnInit {
     private router: Router
   ) {
     this.sub = this.route.params.subscribe((params) => {
-      this.id = +params['id'];
+      this.id = params['id'];
     });
-    this.imageSvc.getCurrentImageInfo().subscribe((data) => {
+    this.imageSvc.getDetailImageInfo().subscribe((data) => {
       if (data) {
         this.image = data;
       }

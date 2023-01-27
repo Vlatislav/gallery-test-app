@@ -1,13 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { Image } from '../../interfaces/image.interface';
+import { ImageInfo } from '../../interfaces/image.interface';
 @Component({
   selector: 'gallery-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css'],
 })
 export class CardComponent {
-  @Input() image: Image | undefined;
+  @Input() image: ImageInfo | undefined;
+  @Input() lazy: boolean;
 
   constructor(private router: Router) {}
 
