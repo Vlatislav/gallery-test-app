@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ImageInfo } from 'src/app/shared/interfaces/image.interface';
 import { ImageService } from '../../shared/services/image.service';
 
@@ -8,9 +10,11 @@ import { ImageService } from '../../shared/services/image.service';
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss'],
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent implements OnInit, OnDestroy {
   id: string;
   imageInfo: ImageInfo;
+
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   private sub: any;
 
@@ -19,14 +23,17 @@ export class DetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.sub = this.route.params.subscribe((params) => {
+    this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       this.id = params['id'];
     });
-    this.imageSvc.getDetailImageInfo().subscribe((data) => {
-      if (data) {
-        this.imageInfo = data;
-      }
-    });
+    this.imageSvc
+      .getDetailImageInfo()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        if (data) {
+          this.imageInfo = data;
+        }
+      });
   }
 
   ngOnInit(): void {
@@ -34,7 +41,8 @@ export class DetailComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   onDownloadClick() {

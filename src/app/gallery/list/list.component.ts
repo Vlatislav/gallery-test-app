@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ImageInfo } from 'src/app/shared/interfaces/image.interface';
 import { ImageService } from 'src/app/shared/services/image.service';
 
@@ -7,31 +9,44 @@ import { ImageService } from 'src/app/shared/services/image.service';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy {
   sliderValue: number = 5;
   imageInfos: ImageInfo[] | null;
   lazyLoadImageInfos: ImageInfo[] | null;
 
-  constructor(private imageSvc: ImageService) {
-    this.imageSvc.getListImageInfos().subscribe((data) => {
-      if (data) {
-        this.imageInfos = data;
-      } else {
-        this.imageInfos = null;
-      }
-    });
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
-    this.imageSvc.getListOfLazyLoadImageInfos().subscribe((data) => {
-      if (data) {
-        this.lazyLoadImageInfos = data;
-      } else {
-        this.lazyLoadImageInfos = null;
-      }
-    });
+  constructor(private imageSvc: ImageService) {
+    this.imageSvc
+      .getListImageInfos()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        if (data) {
+          this.imageInfos = data;
+        } else {
+          this.imageInfos = null;
+        }
+      });
+
+    this.imageSvc
+      .getListOfLazyLoadImageInfos()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        if (data) {
+          this.lazyLoadImageInfos = data;
+        } else {
+          this.lazyLoadImageInfos = null;
+        }
+      });
   }
 
   ngOnInit() {
-    this.imageSvc.getListImageInfosByLimit(5);
+    this.imageSvc.getListImageInfosByLimit(5, true);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   updateSetting() {

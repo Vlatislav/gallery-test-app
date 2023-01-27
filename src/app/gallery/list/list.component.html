@@ -16,7 +16,7 @@
 <div class="content">
   <ng-container *ngIf="imageInfos">
     <gallery-card
-      *ngFor="let imageInfo of imageInfos.slice(0, 5)"
+      *ngFor="let imageInfo of imageInfos"
       [imageInfo]="imageInfo"
       [lazy]="false"
     ></gallery-card>
